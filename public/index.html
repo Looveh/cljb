@@ -2,7 +2,17 @@
   <script src="/js/main.js"></script>
 </head>
 <script type="text/cljs">
-  (js/console.log "Tjaba")
-  (clojure.core/println "Tjena" (inc 2))
-  (println (clojure.string/join ", " [1 2 3]))
+  (def clicks
+    (reagent.core/atom 0))
+
+  (defn button []
+    [:button {:on-click #(swap! clicks inc)}
+     "Click me"])
+
+  (defn body []
+    [:div
+     [:p "I have been clicked " @clicks " times"]
+     [button]])
+
+  (reagent.dom/render [body] (.-body js/document))
 </script>
