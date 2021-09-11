@@ -1,27 +1,15 @@
 (ns cljb.main
-  (:require [cljs.js :refer [empty-state eval-str js-eval]]))
+  (:require [sci.core :as sci]))
 
 (defn my-eval [s]
-  (eval-str
-   (empty-state)
-   s
-   nil
-   {:eval       js-eval
-    :source-map true
-    :context    :expr}
-   #()))
-
-(do
-  (def a 1)
-  (eval (read-string "(+ a 2)")))
+  (let [opts {:classes {'js goog/global :allow :all}
+              :namespaces {'clojure.core {'println println}}}]
+    (sci/eval-string s opts)))
 
 (defn on-document-load []
-  (let [script-elems (.getElementsByTagName js/document "script")]
-    (doseq [e script-elems]
-      (when (= "text/cljs" (.getAttribute e "type"))
-        (-> e
-            (.-textContent)
-            (my-eval))))))
+  (doseq [e (.getElementsByTagName js/document "script")]
+    (when (= "text/cljs" (.getAttribute e "type"))
+      (my-eval (.-textContent e)))))
 
 (defn -main [& _]
   (.addEventListener js/window "load" on-document-load))
