@@ -11,5 +11,5 @@
  :builds
  {:dev
   {:target :browser
-   :output-dir "public/js/"
+   :output-to "public/js/main.js"
    :modules {:main {:init-fn cljb.main/-main}}}}}
