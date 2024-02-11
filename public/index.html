@@ -1,23 +1,27 @@
 <head>
   <script src="/js/main.js"></script>
 </head>
+
+<body>
+  <div id="main"></div>
+</body>
 <script type="text/cljs">
   (def clicks
-    (reagent.core/atom 0))
+    (state 0))
 
   (defn button []
-    [:button {:on-click #(swap! clicks inc)}
-     "Click me"])
+    (let [on-click #(swap! clicks inc)]
+      [:button {:on-click on-click} "Click me"]))
 
   (defn eval-prompt []
-    [:button {:on-click prompt}
-     "eval"])
+    [:button {:on-click prompt} "eval"])
 
-  (defn body []
+  (defn root []
     [:div
      [:p "I have been clicked " @clicks " times"]
      [button]
      [eval-prompt]])
 
-  (reagent.dom/render [body] (.-body js/document))
+  (defroot :cmp root
+           :dom-id "main")
 </script>

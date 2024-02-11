@@ -5,15 +5,21 @@
 
 (declare my-eval)
 
+(defn defroot [& {:keys [cmp dom-id]}]
+  (reagent.dom/render [cmp] (js/document.getElementById dom-id)))
+
+(defn state [initial]
+  (r/atom initial))
+
 (defn prompt []
   (my-eval (js/prompt "Insert cljs here")))
 
 (def ctx
   (sci/init {:classes {'js goog/global :allow :all}
-             :namespaces {'reagent.core {'atom r/atom}
-                          'reagent.dom {'render rd/render}
-                          'clojure.core {'println println
-                                         'prompt prompt}}}))
+             :namespaces {'clojure.core {'println println
+                                         'prompt prompt
+                                         'defroot defroot
+                                         'state state}}}))
 
 (defn my-eval [s]
   (sci/eval-string* ctx s))
