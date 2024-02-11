@@ -65,7 +65,7 @@ These come pre-bundled with `cljb`, lmk if you'd like to see another library on 
 Start by running:
 
 ```sh
-npx shadow-cljs watch :dev
+bun start
 ```
 
 This will auto compile `cljb`'s source code whenever it's edited and start a web server on `localhost:3000` that serves the `public/` folder.
